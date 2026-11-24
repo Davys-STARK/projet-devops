@@ -7,7 +7,7 @@ REQUETES = Counter("app_requetes_total", "Nombre de requetes")
 @app.route("/")
 def accueil():
     REQUETES.inc()
-    return "Bonjour depuis mon appli DevOps !"
+    return "Bonjour, version 2 c'est LONSOK YANN !"
 
 @app.route("/metrics")
 def metrics():
