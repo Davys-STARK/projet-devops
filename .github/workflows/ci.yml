@@ -28,3 +28,14 @@ jobs:
           context: ./app
           push: true
           tags: ghcr.io/${{ steps.nom.outputs.owner }}/mon-appli:latest
+
+  deploy:
+    needs: build-and-push
+    runs-on: self-hosted
+    steps:
+      - name: Deployer le conteneur
+        run: |
+          OWNER=$(echo "${{ github.repository_owner }}" | tr '[:upper:]' '[:lower:]')
+          docker pull ghcr.io/$OWNER/mon-appli:latest
+          docker rm -f appli || true
+          docker run -d -p 8080:8080 --name appli --restart unless-stopped ghcr.io/$OWNER/mon-appli:latest
